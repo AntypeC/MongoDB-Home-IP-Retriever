@@ -14,10 +14,8 @@ collection.insert_one({
 def get_ip():
     ip = get('https://api.ipify.org').text
     time = str(datetime.datetime.now())
-    collection.update_one({
-        {"time": time, "ip": ip}
-    })
+    collection.insert_one({"time": time, "ip": ip})
 
 scheduler = BlockingScheduler()
-scheduler.add_job(get_ip, 'interval', hours=2)
+scheduler.add_job(get_ip, 'interval', hours=12)
 scheduler.start()
